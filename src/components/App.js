@@ -8,17 +8,32 @@ class App extends React.Component {
         super()
 
         this.state = {
-            items: [
-                {
-                    id: uuid(),
-                    text: "Hello"
-                },
-                {
-                    id: uuid(),
-                    text: "Welt"
-                }
-            ]
+            items: [],
+            input: ""
         }
+    }
+
+    onInputChange = (e) => {
+        this.setState({
+            input: e.target.value
+        })
+    }
+
+    onAdd = () => {
+        const newItem = {
+            id: uuid(),
+            text: this.state.input
+        }
+
+        let newItems = [
+            ...this.state.items,
+            newItem
+        ]
+
+        this.setState({
+            input: "",
+            items: newItems
+        })
     }
 
     render() {
@@ -26,8 +41,8 @@ class App extends React.Component {
             <div>
                 <h1>Items</h1>
                 <ItemList items={this.state.items}/>
-                <input type="text" value={this.state.input}/>
-                <button>Add</button>
+                <input onChange={this.onInputChange} type="text" value={this.state.input}/>
+                <button onClick={this.onAdd}>Add</button>
             </div>
         )
     }
