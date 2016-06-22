@@ -1,14 +1,11 @@
 import React from 'react'
-import {v4 as uuid} from 'uuid'
 import ItemList from './ItemList'
 
 class App extends React.Component {
 
-    constructor() {
-        super()
-
+    constructor(props) {
+        super(props)
         this.state = {
-            items: [],
             input: ""
         }
     }
@@ -20,19 +17,17 @@ class App extends React.Component {
     }
 
     onAdd = () => {
-        const newItem = {
-            id: uuid(),
-            text: this.state.input
+        const addAction = {
+            type: "ADD_ITEM",
+            payload: {
+                text: this.state.input
+            }
         }
 
-        let newItems = [
-            ...this.state.items,
-            newItem
-        ]
+        this.props.dispatch(addAction)
 
         this.setState({
-            input: "",
-            items: newItems
+            input: ""
         })
     }
 
@@ -40,7 +35,7 @@ class App extends React.Component {
         return (
             <div>
                 <h1>Items</h1>
-                <ItemList items={this.state.items}/>
+                <ItemList items={this.props.items}/>
                 <input onChange={this.onInputChange} type="text" value={this.state.input}/>
                 <button onClick={this.onAdd}>Add</button>
             </div>
